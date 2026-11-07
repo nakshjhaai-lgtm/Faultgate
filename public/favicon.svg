@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" role="img" aria-label="FaultGate">
+  <rect width="22" height="22" rx="3" fill="#0d5c63"/>
+  <rect x="4.5" y="4.5" width="13" height="13" rx="1" fill="none" stroke="#ffffff" stroke-width="1.4" opacity=".55"/>
+  <rect x="7" y="7" width="4" height="4" fill="#ffffff"/>
+  <path d="M13.5 9.4h3.2M13.5 12.6h3.2M7 15.2h9.7" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

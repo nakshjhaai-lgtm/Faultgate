@@ -1,0 +1,47 @@
+{
+  "name": "faultgate",
+  "version": "1.0.0",
+  "description": "Cross-subsystem FDIR and command-boundary verifier that runs in the browser.",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "dev": "node tools/dev.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node tools/lint.mjs",
+    "preview": "node tools/dev.mjs --port 4173",
+    "verify": "npm run build && npm test && npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakshjhaai-lgtm/Faultgate.git"
+  },
+  "keywords": [
+    "fdir",
+    "spacecraft",
+    "flight-software",
+    "interface-control-document",
+    "verification"
+  ],
+  "author": "Anukalp Jha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nakshjhaai-lgtm/Faultgate/issues"
+  },
+  "homepage": "https://github.com/nakshjhaai-lgtm/Faultgate#readme",
+  "devDependencies": {
+    "@fontsource/archivo": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "esbuild": "^0.28.2",
+    "puppeteer-core": "^25.16.0",
+    "satori": "^0.63.2",
+    "typescript": "^7.0.2"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ]
+}
