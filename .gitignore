@@ -13,3 +13,6 @@ agent/
 skills-lock.json
 .codex/
 .cursor/
+
+# The supplied frontend bundle is an input, not part of the project.
+*.zip

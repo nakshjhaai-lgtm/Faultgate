@@ -189,7 +189,7 @@ export function renderResult(t: FaultTable, r: CheckResult): string {
   const fail = findings.length > 0;
 
   const verdict = `<div class="verdict" data-state="${fail ? 'fail' : 'pass'}" role="status">
-    <span class="verdict__label">${fail ? 'BLOCKED' : 'CLEAR'}</span>
+    <span class="verdict__label">${fail ? 'Blocked' : 'Clear'}</span>
     <span class="verdict__detail">${findings.length} conflict${findings.length === 1 ? '' : 's'} · ${r.counts.critical} critical · ${r.counts.major} major · ${r.counts.minor} minor</span>
     <span class="verdict__detail">${r.combinations} fault combinations</span>
     <span class="verdict__detail">${r.worldsExplored.toLocaleString('en-US')} states explored</span>

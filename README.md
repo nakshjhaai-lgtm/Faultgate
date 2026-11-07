@@ -4,7 +4,7 @@ A boundary verifier for cross-subsystem fault protection.
 
 FaultGate reads a host vehicle bus FDIR table and a payload or autonomy command envelope as **one** state machine, injects every fault combination up to three at once, and names each reachable state where the two documents disagree. Every conflict comes with the shortest reproduction trace and an ICD guard patch written as an interface condition.
 
-Live: **https://faultgate.pages.dev**
+Live: **https://faultgate.nakshjha-ai.workers.dev**
 
 No install, no login, no upload. The table is parsed in the page with the File API and never leaves the browser.
 
@@ -12,7 +12,7 @@ No install, no login, no upload. The table is parsed in the page with the File A
 
 Autonomy, propulsion and payload software now lands on buses built by another vendor, on cycles of two to twelve months. Each subsystem passes its own review. The FDIR boundary between them is reviewed on paper, late, by two teams holding different documents. When a fault crosses that boundary the two rule sets can enter a state neither document describes, and in flight there is no reset button.
 
-FaultGate makes that boundary executable. See [background.html](https://faultgate.pages.dev/background.html) for the dated evidence log and the falsifier.
+FaultGate makes that boundary executable. See [background.html](https://faultgate.nakshjha-ai.workers.dev/background.html) for the dated evidence log and the falsifier.
 
 ## What it does
 
@@ -37,7 +37,7 @@ Three reference tables ship with it:
 - It does not model more than two subsystems in one table.
 - It does not prove flight safety. A clear result covers only the transitions and faults entered.
 
-These limits are stated on the site as well, on [how-it-works.html#limits](https://faultgate.pages.dev/how-it-works.html#limits).
+These limits are stated on the site as well, on [how-it-works.html#limits](https://faultgate.nakshjha-ai.workers.dev/how-it-works.html#limits).
 
 ## Development
 
@@ -66,13 +66,20 @@ src/ingest.ts    CSV/JSON reader, guard expression parser, CSV writer
 src/export.ts    Markdown, CSV and JSON patch sheets
 src/render.ts    one renderer shared by the build and the client
 src/client.ts    the interface: template picker, import, exports
-tools/build.mjs  static build, prerender, OG image, headers, sitemap, llms.txt
+public/ui.js     back-to-top and result notes (presentation only)
+public/style.css the whole design system, tokens at the top
+tokens/          the same 45 tokens as CSS and JSON
+tools/build.mjs  static build, prerender, headers, sitemap, llms.txt
 tools/lint.mjs   build self-audit
 tools/audit-browser.mjs  rendered-page audit
 tests/           node:test suites
 ```
 
 The build prerenders template A's full result into `index.html`, so the page is useful and readable before any script runs. `src/render.ts` is shared between the build and the client so the two cannot drift.
+
+### Frontend
+
+The interface is one accent colour, one flat surface and plain documents, written down as a system in [DESIGN.md](DESIGN.md) and as 45 tokens in `tokens/tokens.css`. Prose is sentence case, 16px at 1.6, 68ch measure, and every control is at least 44px on a touch screen. Colours are measured: every text pair is at or above 4.5:1 in both themes. There is no third-party script, font or stylesheet, and the CSP allows `'self'` only.
 
 ## Deploying
 
@@ -86,7 +93,7 @@ The output is static files. On Cloudflare Pages:
 
 `dist/_headers` carries the CSP, HSTS and permissions policy; `dist/_redirects` carries the two legacy paths. Nothing else is required: no functions, no bindings, no runtime.
 
-Any other static host works. The only vendor-specific files are `_headers` and `_redirects`, both ignored elsewhere.
+Any other static host works. The only vendor-specific files are `_headers` and `_redirects`, both ignored elsewhere; `dist/` uses relative paths throughout, so it also opens correctly straight from the filesystem.
 
 ## Licence
 
