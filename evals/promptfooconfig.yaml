@@ -1,0 +1,144 @@
+# promptfoo configuration.
+#
+# This site serves prerendered HTML with no model in the request path, so there
+# is no prompt to evaluate. What does need continuous assertion is the shipped
+# content: that the verdict, the trace and the guard patch are present without
+# JavaScript, that the pages still answer the questions they claim to, and that
+# none of the copy that got deliberately removed has crept back in.
+#
+#   npx promptfoo eval -c evals/promptfooconfig.yaml
+#
+# Targets are read with `file://` so the suite runs offline against a build.
+description: FaultGate shipped-content assertions
+
+prompts:
+  - file://prompts/page.txt
+
+providers:
+  - id: file://provider.mjs
+    label: dist pages
+
+defaultTest:
+  assert:
+    - type: javascript
+      value: |
+        (output.match(/<h1[\s>]/g) || []).length === 1
+    - type: javascript
+      value: |
+        !output.includes('—')
+    - type: javascript
+      value: |
+        !/\sstyle="/.test(output)
+    - type: javascript
+      value: |
+        output.includes('<html lang="en">')
+
+tests:
+  - description: verifier page carries a prerendered verdict and trace
+    vars:
+      page: index.html
+    assert:
+      - type: contains
+        value: 'BLOCKED'
+      - type: contains
+        value: 'Reproduction trace'
+      - type: contains
+        value: 'Required guard patch'
+      - type: contains
+        value: 'BG-01'
+      - type: icontains
+        value: 'fault combinations'
+      - type: javascript
+        value: |
+          ['data-tpl="A"', 'data-tpl="B"', 'data-tpl="C"'].every((i) => output.includes(i))
+      - type: javascript
+        value: |
+          output.includes('7.5') || output.includes('16')
+
+  - description: verifier page states the three steps
+    vars:
+      page: index.html
+    assert:
+      - type: contains
+        value: 'Three steps'
+      - type: contains
+        value: 'Export the guard patch'
+
+  - description: method page states the limits rather than hiding them
+    vars:
+      page: how-it-works.html
+    assert:
+      - type: contains
+        value: 'Limits, stated plainly'
+      - type: contains
+        value: 'No timing'
+      - type: contains
+        value: 'not flight clearance'
+      - type: contains
+        value: 'falsify'
+
+  - description: the time claim is stated with its basis and its limits
+    vars:
+      page: how-it-works.html
+    assert:
+      - type: contains
+        value: '7.5 hours saved per integration review'
+      - type: contains
+        value: 'estimate about this class of table'
+      - type: contains
+        value: '93, 26 and 26 fault combinations'
+
+  - description: schema page documents the guard grammar and a worked example
+    vars:
+      page: docs.html
+    assert:
+      - type: contains
+        value: 'Guard grammar'
+      - type: contains
+        value: 'state(bus.RADIO_OFF)'
+      - type: contains
+        value: 'record,subsystem,vendor,role,initial'
+      - type: contains
+        value: 'round-trip through the importer unchanged'
+
+  - description: background page carries dated evidence and a falsifier
+    vars:
+      page: background.html
+    assert:
+      - type: contains
+        value: 'Evidence log'
+      - type: contains
+        value: '2026-11-04'
+      - type: contains
+        value: 'What would disprove it'
+
+  - description: privacy page promises no collection
+    vars:
+      page: privacy.html
+    assert:
+      - type: contains
+        value: 'Nothing is collected'
+
+  - description: 404 page offers a recovery path
+    vars:
+      page: 404.html
+    assert:
+      - type: contains
+        value: 'Open the verifier'
+
+  - description: no AI slop phrasing anywhere
+    vars:
+      page: index.html
+    assert:
+      - type: not-contains
+        value: 'Seamless'
+      - type: not-contains
+        value: '10x faster'
+      - type: not-contains
+        value: 'Supercharge'
+      - type: not-contains
+        value: 'Revolutionize'
+      - type: not-contains
+        value: 'lorem ipsum'
+      - type: not-contains
+        value: 'Sarah Chen'

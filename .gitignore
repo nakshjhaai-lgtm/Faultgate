@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.build/
+.agents/
+.wrangler/
+*.log
+.DS_Store
+
+# Agent tooling artefacts are local, not part of the project.
+.claude/
+.agent/
+agent/
+skills-lock.json
+.codex/
+.cursor/
